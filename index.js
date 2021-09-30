@@ -9,23 +9,29 @@ const numberOfNotes = document.querySelectorAll('.number-of-notes');
 
 const noteDenominations = [2000, 500, 100, 20, 10, 5, 1];
 
-
-
-
-btnNext.addEventListener('click', () => {
+function validateBillAmount() {
     var billAmountValue = Number(billAmount.value);
     if (billAmountValue < 1) {
+        clearNoOfNotes();
         showElement(errorMessage);
+        hideElement(btnCheck);
+        showElement(btnNext);
+        hideElement(cashGivenContainer);
         errorMessage.innerText = 'Invalid Bill Amount.';
     } else {
         hideElement(errorMessage);
         hideElement(btnNext);
+        showElement(btnCheck)
         showElement(cashGivenContainer);
     }
-});
+}
+
+
+btnNext.addEventListener('click', validateBillAmount);
 
 btnCheck.addEventListener('click', () => {
     clearNoOfNotes();
+    validateBillAmount();
     var billAmountValue = Number(billAmount.value);
     var cashGivenValue = Number(cashGiven.value);
     if (!Number.isInteger(cashGivenValue)) {
@@ -59,6 +65,7 @@ const calculateNotes = amountToBeReturned => {
 
 const clearNoOfNotes = () => {
     numberOfNotes.forEach(notes => notes.innerText = '');
+    totalAmount.innerText = '';
 }
 
 
